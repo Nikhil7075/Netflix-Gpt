@@ -70,6 +70,15 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 
+create react app
+configured tailwind css
+header
+routing of app
+login form 
+sign up form
+form validating
+useref hook
+
 
 
 login/signup page
