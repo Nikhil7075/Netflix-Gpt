@@ -78,6 +78,9 @@ login form
 sign up form
 form validating
 useref hook
+firebase setup
+deploying app to production
+create signup user account in firebase
 
 
 
