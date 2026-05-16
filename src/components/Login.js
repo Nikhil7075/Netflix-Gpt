@@ -2,8 +2,12 @@ import React from 'react'
 import Header from './Header'
 import { useState ,useRef} from 'react'
 import { validate } from '../utils/validate';
+import { auth } from '../utils/firebase';
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword ,updateProfile} from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate=useNavigate();
 const [isSignIn,setIsSignIn]=useState(true);
 const [message,setMessage]=useState("");
    const email=useRef(null);
@@ -24,6 +28,45 @@ const [message,setMessage]=useState("");
     }
               const message=validate(emailv,passwordv,full_namev,isSignIn);
               setMessage(message);
+              if(message) return;
+              if(!isSignIn){
+                  createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+                    .then((userCredential) => {
+                      // Signed up 
+                      const user = userCredential.user;
+                      // ...
+                      updateProfile(auth.currentUser, {
+                            displayName: "full_name.current.value",
+                            photoURL: "https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production_2026-04-27/consent/87b6a5c0-0104-4e96-a291-092c11350111/019ae4b5-d8fb-7693-90ba-7a61d24a8837/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+                          }).then(() => {
+                               navigate('/browse');
+                          }).catch((error) => {
+                            // An error occurred
+                            // ...
+                            setMessage(error.message);
+                          });
+               
+                    })
+                    .catch((error) => {
+                      const errorCode = error.code;
+                      const errorMessage = error.message;
+                      // ..
+                      setMessage(errorMessage+"-"+errorCode);
+                    });
+              }else{
+                                signInWithEmailAndPassword(auth, email.current.value, password.current.value )
+                  .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    // ...
+                   navigate('/browse');
+                  })
+                  .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setMessage(errorMessage+"-"+errorCode);
+                  });
+              }
               //console.log(message);
           }
 
